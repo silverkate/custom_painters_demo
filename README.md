@@ -2,15 +2,15 @@
 
 Custom painters demo.
 
-## Getting Started
+## Description
 
-This project is a starting point for a Flutter application.
+1) Create a new Flutter project.
+2) Design a widget named 'DraggableContainer' with properties for height, width, and color. This widget should allow us to drag the colored container wherever desired.
+3) Construct another widget, 'DraggableWidget', which comes with a 'child' property. This widget should allow us to drag the provided child widget wherever desired.
+4) For tasks 2 and 3, it's mandatory to implement custom pointers using both RenderBox and RenderProxyBox.
+5) 
+-> Note: Direct usage of widgets from the Flutter library is not allowed.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+5) In the demo: Showcase the results.
+6) 
+-> In the demo: Walk through the code, providing explanations, and be prepared to address questions.
