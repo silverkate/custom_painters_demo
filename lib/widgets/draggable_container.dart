@@ -54,11 +54,11 @@ class DraggableBoxRenderObject extends RenderBox {
 
   @override
   bool hitTestSelf(Offset position) {
-    final minX = (this.position?.dx ?? 0) - width / 2;
-    final maxX = (this.position?.dx ?? 0) + width / 2;
+    final minX = (this.position?.dx ?? 0);
+    final maxX = (this.position?.dx ?? 0) + width;
 
-    final minY = (this.position?.dy ?? 0) - height / 2;
-    final maxY = (this.position?.dy ?? 0) + height / 2;
+    final minY = (this.position?.dy ?? 0);
+    final maxY = (this.position?.dy ?? 0) + height;
 
     final dxPositionOfThePointerOnTheWholeScreen =
         position.dx + (startPosition?.dx ?? 0);
@@ -80,13 +80,19 @@ class DraggableBoxRenderObject extends RenderBox {
 
   @override
   void paint(PaintingContext context, Offset offset) {
-    position ??= offset;
-    startPosition ??= offset;
+    position ??= Offset(
+      (position?.dx ?? offset.dx) + width / 2,
+      (position?.dy ?? offset.dy) + height / 2,
+    );
+    startPosition ??= Offset(
+      offset.dx,
+      offset.dy,
+    );
     context.canvas.drawRect(
       Rect.fromCenter(
         center: Offset(
-          position?.dx ?? offset.dx + width / 2,
-          position?.dy ?? offset.dy + height / 2,
+          (position?.dx ?? offset.dx) + width / 2,
+          (position?.dy ?? offset.dy) + height / 2,
         ),
         height: height,
         width: width,
