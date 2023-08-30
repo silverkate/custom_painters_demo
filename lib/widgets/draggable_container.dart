@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -72,14 +71,6 @@ class DraggableBoxRenderObject extends RenderBox {
         dyPositionOfThePointerOnTheWholeScreen < maxY;
 
     return isDxAcceptable && isDyAcceptable;
-  }
-
-  @override
-  bool debugHandleEvent(
-    PointerEvent event,
-    HitTestEntry<HitTestTarget> entry,
-  ) {
-    return true;
   }
 
   @override
