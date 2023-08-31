@@ -25,37 +25,6 @@ class DraggableWidgetRenderObject extends RenderProxyBox {
   bool _isDragging = false;
 
   @override
-  Size computeDryLayout(BoxConstraints constraints) {
-    if (child != null) {
-      final Size childSize = child!.getDryLayout(const BoxConstraints());
-
-      // During [RenderObject.debugCheckingIntrinsics] a child that doesn't
-      // support dry layout may provide us with an invalid size that triggers
-      // assertions if we try to work with it. Instead of throwing, we bail
-      // out early in that case.
-      bool invalidChildSize = false;
-      assert(() {
-        if (RenderObject.debugCheckingIntrinsics &&
-            childSize.width * childSize.height == 0.0) {
-          invalidChildSize = true;
-        }
-        return true;
-      }());
-      if (invalidChildSize) {
-        assert(debugCannotComputeDryLayout(
-          reason: 'Child provided invalid size of $childSize.',
-        ));
-        return Size.zero;
-      }
-
-      return constraints
-          .constrainSizeAndAttemptToPreserveAspectRatio(childSize);
-    } else {
-      return constraints.smallest;
-    }
-  }
-
-  @override
   void performLayout() {
     if (child != null) {
       child!.layout(const BoxConstraints(), parentUsesSize: true);
@@ -148,22 +117,6 @@ class DraggableWidgetRenderObject extends RenderProxyBox {
       markNeedsPaint();
     } else if (event is PointerUpEvent || event is PointerCancelEvent) {
       _isDragging = false;
-    }
-  }
-
-  @override
-  bool paintsChild(RenderBox child) {
-    assert(child.parent == this);
-    return !size.isEmpty && !child.size.isEmpty;
-  }
-
-  @override
-  void applyPaintTransform(RenderBox child, Matrix4 transform) {
-    if (!paintsChild(child)) {
-      transform.setZero();
-    } else {
-      _updatePaintData();
-      transform.multiply(_transform!);
     }
   }
 }
