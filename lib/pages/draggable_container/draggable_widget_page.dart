@@ -10,11 +10,17 @@ class DraggableWidgetPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('DraggableWidgetPage')),
-      body: const Center(
-        child: DraggableBox(
-          height: 40,
-          width: 24,
-          color: Colors.redAccent,
+      body: Center(
+        child: DraggableWidget(
+          child: Container(
+            width: 100,
+            height: 100,
+            color: Colors.teal,
+            child: const Text(
+              'Text',
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
         ),
       ),
     );

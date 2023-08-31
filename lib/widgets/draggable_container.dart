@@ -39,13 +39,24 @@ class DraggableBoxRenderObject extends RenderBox {
   Offset? position;
 
   bool isDragging = false;
+  Offset initPosition = const Offset(0, 0);
 
   @override
   void handleEvent(PointerEvent event, HitTestEntry entry) {
     if (event is PointerDownEvent) {
+      final tmpInitPosition = Offset(event.position.dx, event.position.dy);
+
+      final maxX = (position?.dx ?? 0) + width;
+      final maxY = (position?.dy ?? 0) + height;
+
+      final qx = maxX - tmpInitPosition.dx;
+      final qy = maxY - tmpInitPosition.dy;
+
+      initPosition = Offset(width - qx, height - qy);
+
       isDragging = true;
     } else if (event is PointerMoveEvent && isDragging) {
-      position = event.position;
+      position = event.position - initPosition;
       markNeedsPaint();
     } else if (event is PointerUpEvent || event is PointerCancelEvent) {
       isDragging = false;
