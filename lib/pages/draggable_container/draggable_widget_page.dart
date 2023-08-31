@@ -16,9 +16,14 @@ class DraggableWidgetPage extends StatelessWidget {
             width: 100,
             height: 100,
             color: Colors.teal,
-            child: const Text(
-              'Text',
-              style: TextStyle(color: Colors.white),
+            child: const Center(
+              child: Text(
+                'Text',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                ),
+              ),
             ),
           ),
         ),
