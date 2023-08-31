@@ -19,7 +19,9 @@ class DraggableWidgetRenderObject extends RenderProxyBox {
   }) : super(child);
 
   Offset? _position;
+  Offset? _initPosition;
   Matrix4? _transform;
+
   bool _isDragging = false;
 
   @override
@@ -127,9 +129,22 @@ class DraggableWidgetRenderObject extends RenderProxyBox {
   @override
   void handleEvent(PointerEvent event, HitTestEntry entry) {
     if (event is PointerDownEvent) {
+      final tmpInitPosition = Offset(event.position.dx, event.position.dy);
+
+      final maxX = (_position?.dx ?? 0) + (child?.size.width ?? 0);
+      final maxY = (_position?.dy ?? 0) + (child?.size.height ?? 0);
+
+      final qx = maxX - tmpInitPosition.dx;
+      final qy = maxY - tmpInitPosition.dy;
+
+      _initPosition = Offset(
+        (child?.size.width ?? 0) - qx,
+        (child?.size.height ?? 0) - qy,
+      );
+
       _isDragging = true;
     } else if (event is PointerMoveEvent && _isDragging) {
-      _position = event.position; // - initPosition;
+      _position = event.position - (_initPosition ?? Offset.zero);
       markNeedsPaint();
     } else if (event is PointerUpEvent || event is PointerCancelEvent) {
       _isDragging = false;
