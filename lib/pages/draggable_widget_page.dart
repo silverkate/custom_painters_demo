@@ -11,17 +11,20 @@ class DraggableWidgetPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('DraggableWidgetPage')),
       body: Center(
-        child: DraggableWidget(
-          child: Container(
-            width: 100,
-            height: 100,
-            color: Colors.teal,
-            child: const Center(
-              child: Text(
-                'Text',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
+        child: Padding(
+          padding: const EdgeInsets.all(8),
+          child: DraggableWidget(
+            child: Container(
+              width: 100,
+              height: 100,
+              color: Colors.teal,
+              child: const Center(
+                child: Text(
+                  'Text',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                  ),
                 ),
               ),
             ),

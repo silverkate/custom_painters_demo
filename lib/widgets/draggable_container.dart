@@ -34,47 +34,46 @@ class DraggableBoxRenderObject extends RenderBox {
   double width;
   Color color;
 
-  Offset? startPosition;
+  Offset? _position;
+  Offset? _initialConstraintsOffset;
 
-  Offset? position;
-
-  bool isDragging = false;
-  Offset initPosition = const Offset(0, 0);
+  bool _isDragging = false;
+  Offset _tapPosition = const Offset(0, 0);
 
   @override
   void handleEvent(PointerEvent event, HitTestEntry entry) {
     if (event is PointerDownEvent) {
       final tmpInitPosition = Offset(event.position.dx, event.position.dy);
 
-      final maxX = (position?.dx ?? 0) + width;
-      final maxY = (position?.dy ?? 0) + height;
+      final maxX = (_position?.dx ?? 0) + width;
+      final maxY = (_position?.dy ?? 0) + height;
 
       final qx = maxX - tmpInitPosition.dx;
       final qy = maxY - tmpInitPosition.dy;
 
-      initPosition = Offset(width - qx, height - qy);
+      _tapPosition = Offset(width - qx, height - qy);
 
-      isDragging = true;
-    } else if (event is PointerMoveEvent && isDragging) {
-      position = event.position - initPosition;
+      _isDragging = true;
+    } else if (event is PointerMoveEvent && _isDragging) {
+      _position = event.position - _tapPosition;
       markNeedsPaint();
     } else if (event is PointerUpEvent || event is PointerCancelEvent) {
-      isDragging = false;
+      _isDragging = false;
     }
   }
 
   @override
   bool hitTestSelf(Offset position) {
-    final minX = (this.position?.dx ?? 0);
-    final maxX = (this.position?.dx ?? 0) + width;
+    final minX = (_position?.dx ?? 0);
+    final maxX = (_position?.dx ?? 0) + width;
 
-    final minY = (this.position?.dy ?? 0);
-    final maxY = (this.position?.dy ?? 0) + height;
+    final minY = (_position?.dy ?? 0);
+    final maxY = (_position?.dy ?? 0) + height;
 
     final dxPositionOfThePointerOnTheWholeScreen =
-        position.dx + (startPosition?.dx ?? 0);
+        position.dx + (_initialConstraintsOffset?.dx ?? 0);
     final dyPositionOfThePointerOnTheWholeScreen =
-        position.dy + (startPosition?.dy ?? 0);
+        position.dy + (_initialConstraintsOffset?.dy ?? 0);
 
     final isDxAcceptable = dxPositionOfThePointerOnTheWholeScreen > minX &&
         dxPositionOfThePointerOnTheWholeScreen < maxX;
@@ -91,19 +90,19 @@ class DraggableBoxRenderObject extends RenderBox {
 
   @override
   void paint(PaintingContext context, Offset offset) {
-    position ??= Offset(
-      (position?.dx ?? offset.dx) + width / 2,
-      (position?.dy ?? offset.dy) + height / 2,
+    _position ??= Offset(
+      (_position?.dx ?? offset.dx) + width / 2,
+      (_position?.dy ?? offset.dy) + height / 2,
     );
-    startPosition ??= Offset(
+    _initialConstraintsOffset ??= Offset(
       offset.dx,
       offset.dy,
     );
     context.canvas.drawRect(
       Rect.fromCenter(
         center: Offset(
-          (position?.dx ?? offset.dx) + width / 2,
-          (position?.dy ?? offset.dy) + height / 2,
+          (_position?.dx ?? offset.dx) + width / 2,
+          (_position?.dy ?? offset.dy) + height / 2,
         ),
         height: height,
         width: width,
