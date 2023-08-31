@@ -75,7 +75,7 @@ class DraggableWidgetRenderObject extends RenderProxyBox {
         oldLayer: layer is TransformLayer ? layer! as TransformLayer : null,
       );
     } else {
-      super.paint(context, offset + childOffset);
+      super.paint(context, offset + Offset(0, (child?.size.height ?? 0)));
     }
     return null;
   }
@@ -83,6 +83,7 @@ class DraggableWidgetRenderObject extends RenderProxyBox {
   @override
   void paint(PaintingContext context, Offset offset) {
     _position ??= offset;
+
     if (child == null || size.isEmpty || child!.size.isEmpty) {
       return;
     }
@@ -92,7 +93,21 @@ class DraggableWidgetRenderObject extends RenderProxyBox {
 
   @override
   bool hitTestChildren(BoxHitTestResult result, {required Offset position}) {
-    return true;
+    final minX = (_position?.dx ?? 0);
+    final maxX = (_position?.dx ?? 0) + (child?.size.width ?? 0);
+
+    final minY = (_position?.dy ?? 0);
+    final maxY = (_position?.dy ?? 0) + (child?.size.height ?? 0);
+
+    final dxPositionOfThePointerOnTheWholeScreen = position.dx;
+    final dyPositionOfThePointerOnTheWholeScreen = position.dy;
+
+    final isDxAcceptable = dxPositionOfThePointerOnTheWholeScreen > minX &&
+        dxPositionOfThePointerOnTheWholeScreen < maxX;
+    final isDyAcceptable = dyPositionOfThePointerOnTheWholeScreen > minY &&
+        dyPositionOfThePointerOnTheWholeScreen < maxY;
+
+    return isDxAcceptable && isDyAcceptable;
   }
 
   @override
