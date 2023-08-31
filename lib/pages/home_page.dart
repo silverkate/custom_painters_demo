@@ -1,4 +1,5 @@
 import 'package:custom_painters_demo/pages/draggable_container/draggable_container_page.dart';
+import 'package:custom_painters_demo/pages/draggable_container/draggable_widget_page.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -34,7 +35,7 @@ class HomePage extends StatelessWidget {
     Navigator.of(context).pushNamed(DraggableContainerPage.route);
   }
 
-  void _openDraggableWidget(BuildContext _) {
-    //Navigator.of(context).pushNamed(DraggableContainerPage.route);
+  void _openDraggableWidget(BuildContext context) {
+    Navigator.of(context).pushNamed(DraggableWidgetPage.route);
   }
 }

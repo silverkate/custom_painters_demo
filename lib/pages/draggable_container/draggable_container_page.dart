@@ -12,8 +12,8 @@ class DraggableContainerPage extends StatelessWidget {
       appBar: AppBar(title: const Text('DraggableContainerPage')),
       body: const Center(
         child: DraggableBox(
-          height: 40,
-          width: 24,
+          height: 60,
+          width: 60,
           color: Colors.redAccent,
         ),
       ),
